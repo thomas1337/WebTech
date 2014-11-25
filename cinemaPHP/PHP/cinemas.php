@@ -6,12 +6,13 @@
  * Time: 18:18
  */
  
- $DSN = "sqlite:cinam.s3db");
+ $DSN = "sqlite:../cinema.s3db");
  $db = new PDO($DSN);
  $reservedSeatsStatement= $db->prepare("SELECT seat FROM seats WHERE movie_id = :movieId");
+ $doReservationStatement= $db->prepare("INSERT INTO seats VALUES(:res_id,:movie_id,:name,:email,:seatnum");
 
 //client requests list of reserved seats as json object
-if( isset($_GET["movie"])){
+if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
 
     $data = array(1,2,3);//testdummydata
     $reservedSeatsStatement->bindParam(":movieId", $_GET["movie"]);
@@ -24,6 +25,18 @@ if( isset($_GET["movie"])){
     echo json_encode($data);
 
     exit();
+    
+    //client posts the reservation data
+} else if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $doReservationStatement->bindParam(":res_id", 3);
+    $doReservationStatement->bindParam(":movie_id", $_POST["movieId"]);
+    $doReservationStatement->bindParam(":name", $_POST["name"]);
+    $doReservationStatement->bindParam(":email", $_POST["email"]);
+    var seats = json_decode($_POST["seats"]);
+    foreach($seats as $seat){
+      $doReservationStatement->bindParam(":seatnum", $seat);
+      $doReservationStatement->execute();
+    }
 }else{
     //header("HTTP/1.0 404 Not Found");
     $data = array(1, 2, 3, 4);
