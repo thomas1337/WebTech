@@ -118,39 +118,13 @@ function createMarker(place) {
 
 function displayAllSeats () {
     drawReservationPlan();
-
-
-
-
-/**
-    receivedReservedPositions = JSON.parse(localStorage["reserved"]);
-    var j;
-
-    for (j = 0; j < receivedReservedPositions.length; j++) {
-        drawReservationPlan(receivedReservedPositions[j]);
-
-    }
-
-**/
-
-    //fetch reserved seats form server!
-  //  var fetchedReservedSeats=[7, 18, 32, 49, 51, 33, 1, 2, 3];
-    //put every reserved seat in a reserved list
-
-    jsonRequest("PHP/cinemas.php?movie=1", drawFetchedReservedSeats);
-
-
-
-
-
-
-    //display reservation
-
+    //GET LIST OF RESERVED
+    jsonRequest("GET", "PHP/cinemas.php?movie=1", drawFetchedReservedSeats);
 
 }
 
 
-function jsonRequest(url, callback) // How can I use this callback?
+function jsonRequest(httpmethod, url, callback, optString) // How can I use this callback?
 {
     console.log("jsonRequest called");
     var request = new XMLHttpRequest();
@@ -161,8 +135,9 @@ function jsonRequest(url, callback) // How can I use this callback?
             callback(request.responseText); // Another callback here
         }
     };
-    request.open('GET', url);
-    request.send();
+    request.open(httpmethod, url, true);
+    //xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(optString);
 }
 
 function drawFetchedReservedSeats(data) {
@@ -193,10 +168,16 @@ function drawFetchedReservedSeats(data) {
 
             }
         }
+    }else{
+        //error case
+        document.getElementById("errorReservation").innerHTML =data;
     }
 }
 
+function handleReservationRequestResult(data){
 
+    document.getElementById("errorReservation").innerHTML =data;
+}
 
 
 function drawReservationPlan(placeObj) {
@@ -444,22 +425,25 @@ function getMousePos(canvas, evt) {
 
 function buyTicket(){
 
-    /**
-    // Check browser support
-    if (typeof(Storage) != "undefined") {
-        // Store
-        localStorage.setItem("reserved",  JSON.stringify(receivedReservedPositions));
-        // Retrieve
-        //document.getElementById("errorReservation").innerHTML = localStorage.getItem("lastname");
-    } else {
-        document.getElementById("errorReservation").innerHTML = "Sorry, your browser does not support Web Storage...";
+
+
+    //var selections = JSON.stringify();
+    var i;
+    var seatNumbers=[];
+    for(i=0;i<userSelectedPositions.length;i++){
+        seatNumbers.push(userSelectedPositions[i].position);
+
     }
 
-     */
+    var reservation={
+        "name":document.getElementById("name").value,
+        "email" : document.getElementById("email").value,
+        "seats": seatNumbers,
+        "movieId" : document.getElementById("mySelect").selectedIndex
 
-    var reservations = JSON.stringify(userSelectedPositions);
-    document.getElementById("errorReservation").innerHTML =reservations;
+    }
 
+    jsonRequest("POST", "PHP/cinemas.php", handleReservationRequestResult, JSON.stringify(reservation))
 return false;
 }
 

@@ -161,14 +161,21 @@ section#contact{
 div#reservationContainer{
     margin-top: 5em;
     width: 30em;
-    height: 10em;
+    height: 20em;
     display: block;
     margin-left: auto;
     margin-right: auto;
     align-content: center;
 }
 
-input{
+div#errorReservation{
+    margin-top: 5em;
+    font-family: myFirstFont;
+    margin-bottom: 5em;
+
+}
+
+input, select{
     position: relative;
    float: right;
     min-width: 15em;
