@@ -28,7 +28,9 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
     
     //client posts the reservation data
 } else if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $doReservationStatement->bindParam(":res_id", 3);
+    //row id will be automatically added
+    $reservationId=3;
+    $doReservationStatement->bindParam(":res_id", $reservationId);
     $doReservationStatement->bindParam(":movie_id", $_POST["movieId"]);
     $doReservationStatement->bindParam(":name", $_POST["name"]);
     $doReservationStatement->bindParam(":email", $_POST["email"]);
@@ -37,6 +39,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
       $doReservationStatement->bindParam(":seatnum", $seat);
       $doReservationStatement->execute();
     }
+    echo $reservationId;//give resId back to client for success message
 }else{
     //header("HTTP/1.0 404 Not Found");
     $data = array(1, 2, 3, 4);
