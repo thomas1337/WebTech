@@ -29,7 +29,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
     //client posts the reservation data
 } else if($_SERVER["REQUEST_METHOD"] == "POST"){
     //row id will be automatically added
-    $reservationId=3;
+    $reservationId=uniqid("res",false);
     $doReservationStatement->bindParam(":res_id", $reservationId);
     $doReservationStatement->bindParam(":movie_id", $_POST["movieId"]);
     $doReservationStatement->bindParam(":name", $_POST["name"]);
