@@ -175,6 +175,13 @@ div#errorReservation{
 
 }
 
+#further_reservation_link{
+
+   display: none;
+    color:midnightblue;
+
+}
+
 input, select{
     position: relative;
    float: right;

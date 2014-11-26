@@ -28,11 +28,12 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
     
     //client posts the reservation data
 } else if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
+
     $input= json_decode(file_get_contents('php://input'));
+    $reservationID=hash("md5", $input->email+$input->movieId+time());
     $seats = $input->seats;
     foreach($seats as $seat){
-        $doReservationStatement->bindParam(":res_id", hash("md5", $input->email+$input->movieId));
+        $doReservationStatement->bindParam(":res_id", $reservationID);
 
         $doReservationStatement->bindParam(":movie_id", $input->movieId);
 
@@ -46,7 +47,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" and isset($_GET["movie"])){
 
     }
      //give resId back to client for success message
-    exit("Die Reservierung war erfolgreich. Ihre ReservierungsID lautet: ".hash("md5", $input->email+$input->movieId));
+    exit("Die Reservierung war erfolgreich. Ihre ReservierungsID lautet: ".$reservationID);
     //TODO send back not only registration ID but again the array with all reserved seats,
     //so the user cannot register twice for the same seats
     //use JSON of course

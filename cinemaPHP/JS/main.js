@@ -117,9 +117,13 @@ function createMarker(place) {
 
 
 function displayAllSeats () {
+    var movieID = document.getElementById("mySelect").selectedIndex;
+    seatsPositions=[];
+    userSelectedPositions=[];
+    receivedReservedPositions=[];
     drawReservationPlan();
     //GET LIST OF RESERVED
-    jsonRequest("GET", "PHP/cinemas.php?movie=1", drawFetchedReservedSeats);
+    jsonRequest("GET", "PHP/cinemas.php?movie="+movieID, drawFetchedReservedSeats);
 
 }
 
@@ -170,13 +174,29 @@ function drawFetchedReservedSeats(data) {
         }
     }else{
         //error case
-        document.getElementById("errorReservation").innerHTML =data;
+        document.getElementById("messageLabel").innerHTML =data;
     }
 }
 
 function handleReservationRequestResult(data){
 
-    document.getElementById("errorReservation").innerHTML =data;
+    //reservation request was success
+    //most probably the reservation was success and data contains the message
+    //with the reservation id
+    alert("handleReservationRequestResult");
+
+    //TODO put previous selected into receivedReservedPositions list
+    var i;
+    for(i=0; i< userSelectedPositions.length;i++){
+        receivedReservedPositions.push(userSelectedPositions[i])
+    }
+
+    //clear user selected list
+    userSelectedPositions=[];
+
+    document.getElementById("messageLabel").innerHTML =data;
+    document.getElementById("submit_button").disabled=true;
+    document.getElementById("further_reservation_link").style.display = 'block';
 }
 
 
@@ -328,7 +348,7 @@ function canvasClick(event){
             }
 
             //if allready reservations there check if not the same are coming in if YES dont store the same
-            if(userSelectedPositions.length!=0){
+           // if(userSelectedPositions.length!=0){
 
                 if(!containsObject(selection, receivedReservedPositions)){
                     userSelectedPositions.push(selection);
@@ -338,11 +358,11 @@ function canvasClick(event){
 
 
 
-            }else{//store if no resevration yet in the list
+            //}else{//store if no resevration yet in the list
 
-                userSelectedPositions.push(selection);
-                drawReservationPlan(selection);
-            }
+              //  userSelectedPositions.push(selection);
+              //  drawReservationPlan(selection);
+          // }
 
 
 
@@ -352,6 +372,9 @@ function canvasClick(event){
     }
 
 }
+
+
+
 
 /**
  *  Check list for equal object by property not by reference
@@ -430,6 +453,10 @@ function buyTicket(){
     //var selections = JSON.stringify();
     var i;
     var seatNumbers=[];
+
+    if(userSelectedPositions.length==0){
+        return false;
+    }
     for(i=0;i<userSelectedPositions.length;i++){
         seatNumbers.push(userSelectedPositions[i].position);
 
@@ -443,7 +470,7 @@ function buyTicket(){
 
     }
 
-    jsonRequest("POST", "PHP/cinemas.php", handleReservationRequestResult, JSON.stringify(reservation))
+    jsonRequest("POST", "PHP/cinemas.php", handleReservationRequestResult, JSON.stringify(reservation));
 return false;
 }
 

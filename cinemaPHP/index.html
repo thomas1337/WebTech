@@ -179,7 +179,7 @@
         <form  onsubmit="return buyTicket()" >
 
             <fieldset>
-                <select id="mySelect">
+                <select id="mySelect" onchange="displayAllSeats()">
                     <option value="volvo">Man in Black</option>
                     <option value="saab">Big Buck Bunny</option>
                     <option value="opel">The Water Diviner</option>
@@ -206,11 +206,17 @@
 
 
 
-        <input type="submit" value="Auswahl reservieren" >
+        <input id="submit_button" type="submit" value="Reserve selection" >
 
         </form>
-    <div id="errorReservation"></div>
+
+    <div id="errorReservation">
+        <p id="messageLabel"></p>
+        <a id="further_reservation_link" href="index.html" > &gt;&gt; Further reservations</a>
+
     </div>
+    </div>
+
     <script>
 
         displayAllSeats();
