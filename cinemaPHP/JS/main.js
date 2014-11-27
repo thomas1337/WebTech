@@ -183,7 +183,7 @@ function handleReservationRequestResult(data){
     //reservation request was success
     //most probably the reservation was success and data contains the message
     //with the reservation id
-    alert("handleReservationRequestResult");
+   // alert("handleReservationRequestResult");
 
     //TODO put previous selected into receivedReservedPositions list
     var i;
