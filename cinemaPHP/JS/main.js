@@ -117,40 +117,18 @@ function createMarker(place) {
 
 
 function displayAllSeats () {
+    var movieID = document.getElementById("mySelect").selectedIndex;
+    seatsPositions=[];
+    userSelectedPositions=[];
+    receivedReservedPositions=[];
     drawReservationPlan();
-
-
-
-
-/**
-    receivedReservedPositions = JSON.parse(localStorage["reserved"]);
-    var j;
-
-    for (j = 0; j < receivedReservedPositions.length; j++) {
-        drawReservationPlan(receivedReservedPositions[j]);
-
-    }
-
-**/
-
-    //fetch reserved seats form server!
-  //  var fetchedReservedSeats=[7, 18, 32, 49, 51, 33, 1, 2, 3];
-    //put every reserved seat in a reserved list
-
-    jsonRequest("PHP/cinemas.php?movie=1", drawFetchedReservedSeats);
-
-
-
-
-
-
-    //display reservation
-
+    //GET LIST OF RESERVED
+    jsonRequest("GET", "PHP/cinemas.php?movie="+movieID, drawFetchedReservedSeats);
 
 }
 
 
-function jsonRequest(url, callback) // How can I use this callback?
+function jsonRequest(httpmethod, url, callback, optString) // How can I use this callback?
 {
     console.log("jsonRequest called");
     var request = new XMLHttpRequest();
@@ -161,8 +139,9 @@ function jsonRequest(url, callback) // How can I use this callback?
             callback(request.responseText); // Another callback here
         }
     };
-    request.open('GET', url);
-    request.send();
+    request.open(httpmethod, url, true);
+    //xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(optString);
 }
 
 function drawFetchedReservedSeats(data) {
@@ -193,10 +172,32 @@ function drawFetchedReservedSeats(data) {
 
             }
         }
+    }else{
+        //error case
+        document.getElementById("messageLabel").innerHTML =data;
     }
 }
 
+function handleReservationRequestResult(data){
 
+    //reservation request was success
+    //most probably the reservation was success and data contains the message
+    //with the reservation id
+    alert("handleReservationRequestResult");
+
+    //TODO put previous selected into receivedReservedPositions list
+    var i;
+    for(i=0; i< userSelectedPositions.length;i++){
+        receivedReservedPositions.push(userSelectedPositions[i])
+    }
+
+    //clear user selected list
+    userSelectedPositions=[];
+
+    document.getElementById("messageLabel").innerHTML =data;
+    document.getElementById("submit_button").disabled=true;
+    document.getElementById("further_reservation_link").style.display = 'block';
+}
 
 
 function drawReservationPlan(placeObj) {
@@ -347,7 +348,7 @@ function canvasClick(event){
             }
 
             //if allready reservations there check if not the same are coming in if YES dont store the same
-            if(userSelectedPositions.length!=0){
+           // if(userSelectedPositions.length!=0){
 
                 if(!containsObject(selection, receivedReservedPositions)){
                     userSelectedPositions.push(selection);
@@ -357,11 +358,11 @@ function canvasClick(event){
 
 
 
-            }else{//store if no resevration yet in the list
+            //}else{//store if no resevration yet in the list
 
-                userSelectedPositions.push(selection);
-                drawReservationPlan(selection);
-            }
+              //  userSelectedPositions.push(selection);
+              //  drawReservationPlan(selection);
+          // }
 
 
 
@@ -371,6 +372,9 @@ function canvasClick(event){
     }
 
 }
+
+
+
 
 /**
  *  Check list for equal object by property not by reference
@@ -444,22 +448,29 @@ function getMousePos(canvas, evt) {
 
 function buyTicket(){
 
-    /**
-    // Check browser support
-    if (typeof(Storage) != "undefined") {
-        // Store
-        localStorage.setItem("reserved",  JSON.stringify(receivedReservedPositions));
-        // Retrieve
-        //document.getElementById("errorReservation").innerHTML = localStorage.getItem("lastname");
-    } else {
-        document.getElementById("errorReservation").innerHTML = "Sorry, your browser does not support Web Storage...";
+
+
+    //var selections = JSON.stringify();
+    var i;
+    var seatNumbers=[];
+
+    if(userSelectedPositions.length==0){
+        return false;
+    }
+    for(i=0;i<userSelectedPositions.length;i++){
+        seatNumbers.push(userSelectedPositions[i].position);
+
     }
 
-     */
+    var reservation={
+        "name":document.getElementById("name").value,
+        "email" : document.getElementById("email").value,
+        "seats": seatNumbers,
+        "movieId" : document.getElementById("mySelect").selectedIndex
 
-    var reservations = JSON.stringify(userSelectedPositions);
-    document.getElementById("errorReservation").innerHTML =reservations;
+    }
 
+    jsonRequest("POST", "PHP/cinemas.php", handleReservationRequestResult, JSON.stringify(reservation));
 return false;
 }
 
