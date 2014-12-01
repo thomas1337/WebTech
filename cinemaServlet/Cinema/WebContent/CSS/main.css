@@ -1,0 +1,214 @@
+
+
+body{
+
+    margin: 0;
+    padding: 0
+}
+
+a{
+    color: black;
+
+}
+header{
+
+
+    height: 5em;
+    width: 200%;
+    -webkit-box-shadow: 0px 0px  4px 0px   black ;
+    box-shadow: 0px 0px  4px 0px   black ;
+    padding-top: auto;
+    padding-bottom: auto;
+
+
+
+}
+
+
+nav{
+    position: relative;
+    top: 80%;
+    transform: translateY(-20%);
+    float: left;
+    margin-left: 33%;
+
+    min-height: 1em;
+    min-width: 60%;
+}
+
+
+
+#logo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height:5em;
+
+    min-width: 40%;
+}
+
+
+
+
+#logoimage{
+    position: absolute;
+   float: left;
+    width: 80px;
+    width: 80px;
+   margin-left: 2em;
+}
+
+#logotext{
+    position: absolute;
+    top: 20%;
+    margin-left: 3em;
+    left: 20%;
+
+    font-family: myFirstFont;
+
+}
+
+a.navitem{
+
+    text-decoration: none;
+    padding-right: 1%;
+font-family: myFirstFont;
+
+}
+
+a.navitem:hover{
+    background: aquamarine;
+
+}
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(fonts/Raleway-ExtraLight.ttf);
+}
+section{
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+section#videosection{
+
+
+    background: lightblue;
+
+    max-height: 50%;
+    display: inline-block;
+}
+
+article{
+   float: left;
+    border: solid;
+    border-color: #ffffff;
+    border-width: 0.5em;
+    box-sizing: content-box;
+    min-height: 315px;
+    max-width: 420px;
+    margin:0.4em;
+    background: #ffffff;
+
+}
+section#map{
+
+    background: darkslategray;
+}
+
+
+#map_canvas {
+    width: 500px;
+    height: 400px;
+    background-color: #CCC;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 3em;
+}
+
+section#reservation{
+
+    background: lightseagreen;
+}
+canvas#myCanvas{
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 3em;
+
+    border-color: black;
+    border-width: 1px;
+    border: dashed;
+    display: block;
+}
+
+h1{
+    margin: 1em;
+    font-family: myFirstFont;
+}
+
+h1#nearby{
+
+    color: #ffffff;
+}
+
+section#contact{
+
+    background: slategrey;
+}
+
+div#reservationContainer{
+    margin-top: 5em;
+    width: 30em;
+    height: 20em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+}
+
+div#errorReservation{
+    margin-top: 5em;
+    font-family: myFirstFont;
+    margin-bottom: 5em;
+
+}
+
+#further_reservation_link{
+
+   display: none;
+    color:midnightblue;
+
+}
+
+input, select{
+    position: relative;
+   float: right;
+    min-width: 15em;
+    font-family: myFirstFont;
+}
+
+fieldset{
+
+    border: none;
+}
+
+label{
+
+    font-family: myFirstFont;
+}
+
+div#contactContainer{
+
+    width: 30em;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+}
+address{
+    font-family: myFirstFont;
+
+}
