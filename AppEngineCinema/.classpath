@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/evgenijavstein/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.9.15/appengine-java-sdk-1.9.15/lib/user/appengine-api-1.0-sdk-1.9.15.jar" sourcepath="/Users/evgenijavstein/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.9.15/appengine-java-sdk-1.9.15/src/user/appengine-api-1.0-sdk-1.9.15-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/evgenijavstein/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.9.15/appengine-java-sdk-1.9.15/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
